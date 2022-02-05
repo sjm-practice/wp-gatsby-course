@@ -1,10 +1,11 @@
 import React from "react";
+import Layout from "../components/layout";
 
 const Page = ({ pageContext }) => {
   return (
-    <div>
-      <h1>{pageContext.title}</h1>
-    </div>
+    <Layout>
+      <h1 dangerouslySetInnerHTML={{ __html: pageContext.title }} />
+    </Layout>
   );
 };
 
