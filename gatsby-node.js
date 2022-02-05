@@ -8,7 +8,7 @@ const { slash } = require(`gatsby-core-utils`);
 // Will create pages for WordPress pages (route : /{slug})
 // Will create pages for WordPress posts (route : /post/{slug})
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions;
+  const { createPage, createRedirect } = actions;
 
   // The “graphql” function allows us to run arbitrary
   // queries against the local Gatsby GraphQL schema. Think of
@@ -48,6 +48,14 @@ exports.createPages = async ({ graphql, actions }) => {
   if (result.errors) {
     throw new Error(result.errors);
   }
+
+  // Since WP must have a slug for each page, use the home page for root index
+  createRedirect({
+    fromPath: "/",
+    toPath: "/home",
+    redirectInBrowser: true,
+    isPermanent: true,
+  });
 
   // Access query results via object destructuring
   const { allWordpressPage, allWordpressPost } = result.data;
