@@ -1,6 +1,6 @@
 import React from "react";
 
-const Post = ({ pageContext }) => {
+const Portfolio = ({ pageContext }) => {
   return (
     <div>
       <h1>{pageContext.title}</h1>
@@ -8,4 +8,4 @@ const Post = ({ pageContext }) => {
   );
 };
 
-export default Post;
+export default Portfolio;
