@@ -10,6 +10,11 @@ const { slash } = require(`gatsby-core-utils`);
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage, createRedirect } = actions;
 
+  // TODO
+  // TODO NOTE: WHEN DOING THIS FOR PRODUCTION CONSIDER SPLITTING THAT ONE QUERY
+  // TODO      OUT INTO THREE QUERIES, PROCESSING EACH INDIVIDUALLY
+  // TODO
+
   // The “graphql” function allows us to run arbitrary
   // queries against the local Gatsby GraphQL schema. Think of
   // it like the site has a built-in database constructed
@@ -45,6 +50,17 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
+      allWordpressPost {
+        edges {
+          node {
+            title
+            content
+            excerpt
+            wordpress_id
+            date
+          }
+        }
+      }
     }
   `);
 
@@ -62,7 +78,11 @@ exports.createPages = async ({ graphql, actions }) => {
   });
 
   // Access query results via object destructuring
-  const { allWordpressPage, allWordpressWpPortfolio } = result.data;
+  const {
+    allWordpressPage,
+    allWordpressWpPortfolio,
+    allWordpressPost,
+  } = result.data;
 
   // Create Page pages.
   const pageTemplate = path.resolve(`./src/templates/page.js`);
@@ -103,6 +123,27 @@ exports.createPages = async ({ graphql, actions }) => {
       path: `/portfolio/${edge.node.slug}/`,
       component: slash(portfolioTemplate),
       context: edge.node,
+    });
+  });
+
+  const blogPostListTemplate = path.resolve(`./src/templates/blogPostList.js`);
+
+  const posts = allWordpressPost.edges;
+  const postsPerPage = 2;
+  const numberOfPages = Math.ceil(posts.length / postsPerPage);
+
+  posts.forEach((page, index) => {
+    createPage({
+      path: index === 0 ? `/blog/` : `/blog/${index + 1}/`,
+      component: slash(blogPostListTemplate),
+      context: {
+        posts: posts.slice(
+          index * postsPerPage,
+          index * postsPerPage + postsPerPage
+        ),
+        numberOfPages,
+        currentPage: index + 1,
+      },
     });
   });
 };
