@@ -2,7 +2,6 @@ import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
 import MainMenu from "./MainMenu";
-import Header from "./header";
 
 const GlobalStyles = createGlobalStyle`
   @import url("https://fonts.googleapis.com/css?family=Open+Sans");

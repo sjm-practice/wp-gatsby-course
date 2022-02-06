@@ -13,7 +13,11 @@ const Portfolio = ({ pageContext }) => (
     <FeaturedImage src={pageContext.featured_media.source_url} />
     <div>
       <strong>Website URL:&nbsp;</strong>
-      <a href={pageContext.acf.portfolio_url} target="_blank">
+      <a
+        href={pageContext.acf.portfolio_url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {pageContext.acf.portfolio_url}
       </a>
     </div>
