@@ -3,6 +3,21 @@ import Layout from "../components/layout";
 import { Link } from "gatsby";
 import styled from "styled-components";
 
+const Pagination = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const PageNumberWrapper = styled.div`
+  border: 1px solid #eee;
+  background: ${props => (props.isCurrentPage ? "#eee" : "white")};
+`;
+
+const PageNumber = styled(Link)`
+  display: block;
+  padding 8px 16px;
+`;
+
 const BlogPostList = ({ pageContext }) => (
   <Layout>
     {pageContext.posts.map(post => (
@@ -11,13 +26,18 @@ const BlogPostList = ({ pageContext }) => (
         <p dangerouslySetInnerHTML={{ __html: post.node.excerpt }} />
       </div>
     ))}
-    {Array.from({ length: pageContext.numberOfPages }).map((page, index) => (
-      <div key={index}>
-        <Link to={index === 0 ? `/blog/` : `/blog/${index + 1}/`}>
-          {index + 1}
-        </Link>
-      </div>
-    ))}
+    <Pagination>
+      {Array.from({ length: pageContext.numberOfPages }).map((page, index) => (
+        <PageNumberWrapper
+          key={index}
+          isCurrentPage={index + 1 === pageContext.currentPage}
+        >
+          <PageNumber to={index === 0 ? `/blog/` : `/blog/${index + 1}/`}>
+            {index + 1}
+          </PageNumber>
+        </PageNumberWrapper>
+      ))}
+    </Pagination>
   </Layout>
 );
 
