@@ -34,7 +34,7 @@ module.exports = {
         baseUrl: "gatsby-wordpress-course.local",
         protocol: "http",
         hostingWPCOM: false,
-        useACF: false,
+        useACF: true,
         verboseOutput: false,
         perPage: 100,
         concurrentRequests: 10,
