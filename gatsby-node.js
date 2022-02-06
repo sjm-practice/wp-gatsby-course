@@ -57,7 +57,8 @@ exports.createPages = async ({ graphql, actions }) => {
             content
             excerpt
             wordpress_id
-            date
+            date(formatString: "Do MMM YYYY HH:mm")
+            slug
           }
         }
       }
@@ -132,7 +133,8 @@ exports.createPages = async ({ graphql, actions }) => {
   const postsPerPage = 2;
   const numberOfPages = Math.ceil(posts.length / postsPerPage);
 
-  posts.forEach((page, index) => {
+  posts.forEach((post, index) => {
+    // create the blog list page
     createPage({
       path: index === 0 ? `/blog/` : `/blog/${index + 1}/`,
       component: slash(blogPostListTemplate),
@@ -144,6 +146,13 @@ exports.createPages = async ({ graphql, actions }) => {
         numberOfPages,
         currentPage: index + 1,
       },
+    });
+
+    // create post page
+    createPage({
+      path: `/post/${post.node.slug}/`,
+      component: slash(pageTemplate),
+      context: post.node,
     });
   });
 };
