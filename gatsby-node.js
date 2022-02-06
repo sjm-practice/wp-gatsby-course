@@ -39,6 +39,9 @@ exports.createPages = async ({ graphql, actions }) => {
             featured_media {
               source_url
             }
+            acf {
+              portfolio_url
+            }
           }
         }
       }

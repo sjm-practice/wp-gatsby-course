@@ -11,6 +11,12 @@ const Portfolio = ({ pageContext }) => (
   <Layout>
     <h1>{pageContext.title}</h1>
     <FeaturedImage src={pageContext.featured_media.source_url} />
+    <div>
+      <strong>Website URL:&nbsp;</strong>
+      <a href={pageContext.acf.portfolio_url} target="_blank">
+        {pageContext.acf.portfolio_url}
+      </a>
+    </div>
     <div dangerouslySetInnerHTML={{ __html: pageContext.content }} />
   </Layout>
 );
